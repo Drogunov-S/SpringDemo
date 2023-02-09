@@ -1,6 +1,8 @@
 package ru.drogunov.springcource;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ru.drogunov.springcource.music.Genre;
 
@@ -8,13 +10,23 @@ import java.util.List;
 import java.util.Random;
 
 @Component
+@Scope("prototype")
 public class MusicPlayer {
     private final Music rockMusic;
     private final Music jazzMusic;
     private final Music classicMusic;
-    
+    @Value("${musicPlayer.name}")
     private String name;
+    @Value("${musicPlayer.volume}")
     private int volume;
+    
+    public String getName() {
+        return name;
+    }
+    
+    public int getVolume() {
+        return volume;
+    }
     
     public MusicPlayer(@Qualifier("rockMusic") Music rockMusic,
                        @Qualifier("jazzMusic") Music jazzMusic,

@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public interface Music {
     
     List<String> getSongs();
-    
     default void init() {
         System.out.println("+ Init " + this.getClass().getSimpleName());
     }

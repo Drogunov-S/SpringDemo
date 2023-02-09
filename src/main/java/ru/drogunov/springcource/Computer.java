@@ -25,4 +25,8 @@ public class Computer {
                 id +
                 ": " + musicPlayer.playMusic(genre);
     }
+    
+    public MusicPlayer getMusicPlayer() {
+        return musicPlayer;
+    }
 }

@@ -3,21 +3,23 @@ package ru.drogunov.springcource.music;
 import org.springframework.stereotype.Component;
 import ru.drogunov.springcource.Music;
 
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component("classicMusic")
 public class ClassicMusic implements Music {
     
-    static volatile int trigger = 0;
-    int id;
     
-    ClassicMusic() {
-        trigger++;
-        id = trigger;
+    private final List<String> songs = new ArrayList<>();
+    
+    public ClassicMusic() {
+        songs.add("Hungary Rhapsody");
+        songs.add("Classic muzze");
+        songs.add("Classic tree");
     }
     
     @Override
-    public String getSong() {
-        return id + " Hungary Rhapsody " + trigger;
+    public List<String> getSongs() {
+        return songs;
     }
 }

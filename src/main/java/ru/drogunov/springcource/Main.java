@@ -13,7 +13,7 @@ public class Main {
         );
         System.out.println("//".repeat(10));
         MusicPlayer bean = context.getBean(MusicPlayer.class);
-        System.out.println(bean.playMusic());
+//        System.out.println(bean.playMusic());
         System.out.println("//".repeat(10));
         Computer bean1 = context.getBean(Computer.class);
         System.out.println(bean1);

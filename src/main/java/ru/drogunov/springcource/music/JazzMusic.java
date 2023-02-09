@@ -2,19 +2,22 @@ package ru.drogunov.springcource.music;
 
 import org.springframework.stereotype.Component;
 import ru.drogunov.springcource.Music;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class JazzMusic implements Music {
-    private JazzMusic() {
-        System.out.println("Music constructor");
-    }
+    private final List<String> songs = new ArrayList<>();
     
-    public static JazzMusic get() {
-        System.out.println("static Music method");
-        return new JazzMusic();
+    public JazzMusic() {
+        songs.add("Jazz music");
+        songs.add("Juli Jazz");
+        songs.add("Jazzy");
     }
     
     @Override
-    public String getSong() {
-        return "Jazz music";
+    public List<String> getSongs() {
+        return songs;
     }
 }

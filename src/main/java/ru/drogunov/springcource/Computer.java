@@ -2,6 +2,9 @@ package ru.drogunov.springcource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.drogunov.springcource.music.Genre;
+
+import java.util.Random;
 
 @Component
 public class Computer {
@@ -15,8 +18,11 @@ public class Computer {
     
     @Override
     public String toString() {
+        Genre[] values = Genre.values();
+        Genre genre = values[new Random().nextInt(values.length)];
+        
         return "Computer " +
                 id +
-                ": " + musicPlayer.playMusic();
+                ": " + musicPlayer.playMusic(genre);
     }
 }

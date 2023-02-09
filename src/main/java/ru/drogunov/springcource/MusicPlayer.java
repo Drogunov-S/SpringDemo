@@ -1,52 +1,43 @@
 package ru.drogunov.springcource;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import ru.drogunov.springcource.music.ClassicMusic;
-import ru.drogunov.springcource.music.JazzMusic;
-import ru.drogunov.springcource.music.RockMusic;
+import ru.drogunov.springcource.music.Genre;
 
-import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Random;
 
 @Component
 public class MusicPlayer {
-    private final ClassicMusic classicMusic;
-    private final RockMusic rockMusic;
-    private final JazzMusic jazzMusic;
+    private final Music rockMusic;
+    private final Music jazzMusic;
+    private final Music classicMusic;
     
-    @Autowired
-    public MusicPlayer(ClassicMusic classicMusic, RockMusic rockMusic, JazzMusic jazzMusic) {
-        this.classicMusic = classicMusic;
-        this.rockMusic = rockMusic;
-        this.jazzMusic = jazzMusic;
-    }
-    
-    //    private List<Music> musicList = new ArrayList<>();
     private String name;
     private int volume;
     
-    public String playMusic() {
-        String playing = "\n Playing: ";
-        return playing +
-                classicMusic.getSong() +
-                playing +
-                rockMusic.getSong() +
-                playing +
-                jazzMusic.getSong();
+    public MusicPlayer(@Qualifier("rockMusic") Music rockMusic,
+                       @Qualifier("jazzMusic") Music jazzMusic,
+                       @Qualifier("classicMusic") Music classicMusic)
+    {
+        this.rockMusic = rockMusic;
+        this.jazzMusic = jazzMusic;
+        this.classicMusic = classicMusic;
     }
     
+    public String playMusic(Genre genre) {
+        Music musicGenre = getMusicGenre(genre);
+        List<String> songs = musicGenre.getSongs();
+        System.out.println(genre);
+        return songs.get(new Random().nextInt(songs.size()));
+    }
     
-    
-    /*
-    public String playMusic() {
-        return musicList.stream()
-                .map(music ->  String.format("Playing: %s%n", music.getSong()))
-                .collect(Collectors.joining());
-    }*/
-    
-    
-    
+    private Music getMusicGenre(Genre genre) {
+        return switch (genre) {
+        case CLASSIC_MUSIC -> classicMusic;
+        case JAZZ_MUSIC -> jazzMusic;
+        case ROCK_MUSIC -> rockMusic;
+        };
+        
+    }
 }

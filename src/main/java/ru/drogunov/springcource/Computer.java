@@ -3,8 +3,10 @@ package ru.drogunov.springcource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.drogunov.springcource.music.Genre;
+import ru.drogunov.springcource.processor.Benchmark;
 
 import java.util.Random;
+
 
 public class Computer {
     

@@ -14,9 +14,9 @@ import ru.drogunov.springcource.processor.BenchmarkAnnotationBeanPostProcessor;
 
 import java.util.ArrayList;
 
-@Configuration
+//@Configuration
 //@ComponentScan("ru.drogunov.springcource")
-@PropertySource("classpath:musicPlayer.properties")
+//@PropertySource("classpath:musicPlayer.properties")
 public class AppConfig {
     
     @Bean

@@ -6,7 +6,6 @@ import ru.drogunov.springcource.Music;
 import java.util.List;
 import java.util.ArrayList;
 
-@Component
 public class RockMusic implements Music {
     private final List<String> songs = new ArrayList<>();
     

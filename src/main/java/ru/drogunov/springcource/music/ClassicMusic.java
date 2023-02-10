@@ -6,7 +6,6 @@ import ru.drogunov.springcource.Music;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("classicMusic")
 public class ClassicMusic implements Music {
     
     

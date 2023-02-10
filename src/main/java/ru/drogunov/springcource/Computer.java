@@ -6,7 +6,6 @@ import ru.drogunov.springcource.music.Genre;
 
 import java.util.Random;
 
-@Component
 public class Computer {
     
     private Long id = 1L;
@@ -15,7 +14,6 @@ public class Computer {
     public Computer(MusicPlayer musicPlayer) {
         this.musicPlayer = musicPlayer;
     }
-    
     @Override
     public String toString() {
         Genre[] values = Genre.values();
@@ -23,7 +21,7 @@ public class Computer {
         
         return "Computer " +
                 id +
-                ": " + musicPlayer.playMusic(genre);
+                ": " + musicPlayer.playMusic();
     }
     
     public MusicPlayer getMusicPlayer() {

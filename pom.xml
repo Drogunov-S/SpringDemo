@@ -39,6 +39,11 @@
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
         <!-- Spring Web -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -61,6 +66,7 @@
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
             <version>1.2</version>
+            <scope>provided  </scope>
         </dependency>
     </dependencies>
 

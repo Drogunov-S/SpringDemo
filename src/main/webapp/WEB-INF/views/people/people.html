@@ -13,7 +13,9 @@
   <ul>
     <li th:each="person : ${people}">
       <!--/*@thymesVar id="person" type="ru.drogunov.springcource.model.Person"*/-->
-      <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName() + ' ' + person.getSurname()}">ref</a>
+      <a th:href="@{/people/{id}(id=${person.getId()})}"
+         th:object="${person}"
+         th:text="*{name} + ',         ' + *{surname} + ',         ' + *{age} + ',         ' + *{email}"/>
     </li>
   </ul>
   <br>

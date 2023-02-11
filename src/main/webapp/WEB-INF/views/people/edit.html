@@ -10,8 +10,27 @@
 <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
   <label for="name">Enter name: </label>
   <input type="text" th:field="*{name}" id="name"/>
+  <hr>
+  <span style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+  <hr>
+  <br>
   <label for="surname">Enter surname: </label>
   <input type="text" th:field="*{surname}" id="surname"/>
+  <hr>
+  <span style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+  <hr>
+  <br>
+  <label for="age">Enter age: </label>
+  <input type="text" th:field="*{age}" id="age"/>
+  <hr>
+  <span style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
+  <hr>
+  <br>
+  <label for="email">Enter email: </label>
+  <input type="text" th:field="*{email}" id="email"/>
+  <hr>
+  <span style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+  <hr>
   <input type="submit" value="Update"/>
 </form>
 <hr>
@@ -20,7 +39,6 @@
 <hr>
 <a href="/people/new">Create person</a>
 <br>
-
 
 
 </body>

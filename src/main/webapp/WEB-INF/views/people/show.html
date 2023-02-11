@@ -7,10 +7,20 @@
 <body>
 <h1>Show person</h1>
 <!--/*@thymesVar id="person" type="ru.drogunov.springcource.model.Person"*/-->
+<hr>
 <p th:text="${person.getId()}"/>
+<hr>
 <p th:text="${person.getName()}"/>
+<hr>
 <p th:text="${person.getSurname()}"></p>
-
+<hr>
+<p th:text="${person.getAge()}"></p>
+<hr>
+<p th:text="${person.getEmail()}"></p>
+<hr>
+<br>
+<br>
+<hr>
 <a href="/">Home page</a>
 <br>
 <hr>

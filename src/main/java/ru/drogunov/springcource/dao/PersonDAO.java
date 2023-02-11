@@ -1,7 +1,6 @@
 package ru.drogunov.springcource.dao;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import ru.drogunov.springcource.model.Person;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class PersonDAO {
         return people;
     }
     
-    public Person show(int id) {
+    public Person getById(int id) {
         return people.stream()
                 .filter(person -> person.getId() == id)
                 .findAny()
@@ -37,5 +36,15 @@ public class PersonDAO {
     public void save(Person person) {
         person.setId(++PEOPLE_COUNT);
         people.add(person);
+    }
+    
+    public void update(int id, Person person) {
+        Person personToBeUpdated = getById(id);
+        personToBeUpdated.setName(person.getName());
+        personToBeUpdated.setSurname(person.getSurname());
+    }
+    
+    public void delete(int id) {
+        people.remove(getById(id));
     }
 }

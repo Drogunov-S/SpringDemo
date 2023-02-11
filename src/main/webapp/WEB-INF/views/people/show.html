@@ -11,7 +11,29 @@
 <p th:text="${person.getName()}"/>
 <p th:text="${person.getSurname()}"></p>
 
-<a href="http://localhost:8080/">Home page</a>
-
+<a href="/">Home page</a>
+<br>
+<hr>
+<a href="/people/new">Create person</a>
+<br>
+<hr>
+<a th:href="@{/people/{id}/edit(id=${person.getId()})}">Update person</a>
+<br>
+<hr>
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+  <input type="submit" value="Delete">
+</form>
+<!--Колхоз-->
+<!--<a th:href="@{/people/{id}(id=${person.getId()})}+${'/edit'}" th:object="${person}">Update person</a>-->
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create person</title>
+</head>
+<body>
+<h1>Create person</h1>
+<!--/*@thymesVar id="person" type="ru.drogunov.springcource.model.Person"*/-->
+<form th:method="POST" th:action="@{/people}" th:object="${person}">
+  <label for="name">Enter name: </label>
+  <input type="text" th:field="*{name}" id="name"/>
+  <label for="surname">Enter surname: </label>
+  <input type="text" th:field="*{surname}" id="surname"/>
+  <input type="submit" value="Create"/>
+</form>
+
+<a href="http://localhost:8080/">Home page</a>
+
+</body>
+</html>

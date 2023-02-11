@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Person</title>
+</head>
+<body>
+<h1>Show person</h1>
+<!--/*@thymesVar id="person" type="ru.drogunov.springcource.model.Person"*/-->
+<p th:text="${person.getId()}"/>
+<p th:text="${person.getName()}"/>
+<p th:text="${person.getSurname()}"></p>
+
+<a href="http://localhost:8080/">Home page</a>
+
+</body>
+</html>

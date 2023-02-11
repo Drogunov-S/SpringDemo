@@ -10,8 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.util.Objects.nonNull;
-
+@Component
 public class BenchmarkAnnotationBeanPostProcessor implements BeanPostProcessor {
     private final Map<String, Class<?>> map = new HashMap<>();
     

@@ -5,12 +5,22 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>First controller</title>
+  <title>All people</title>
 </head>
 <body>
-<h1>Home page</h1>
-<a href="http://localhost:8080/people">Persons</a>
-<br>
+
+<div>
+  <ul>
+    <li th:each="person : ${people}">
+      <!--/*@thymesVar id="person" type="ru.drogunov.springcource.model.Person"*/-->
+      <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName() + ' ' + person.getSurname()}">ref</a>
+    </li>
+  </ul>
+  <br>
+</div>
+
+<a href="http://localhost:8080/">Home page</a>
+
 <a href="http://localhost:8080/people/new">Create person</a>
 </body>
 </html>

@@ -33,12 +33,20 @@ public class SpringWebMvcConfigurer implements WebMvcConfigurer {
     private String suffix;
     @Value("${springWebMvcConfigurer.enableSpringELCompiler}")
     private boolean enableSpringELCompiler;
-    @Value("${db.password}")
+    @Value("${db.URL}")
     private String URL;
     @Value("${db.userName}")
     private String userName;
-    @Value("${db.URL}")
+    @Value("${db.password}")
     private String password;
+    
+    static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
     
     @Autowired
     public SpringWebMvcConfigurer(ApplicationContext applicationContext) {
@@ -67,23 +75,13 @@ public class SpringWebMvcConfigurer implements WebMvcConfigurer {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
         registry.viewResolver(resolver);
-        //TODO В примере эти два параметра не внедряются, Вопрос почему?
     }
     
     @Bean
     public Connection connection() {
         try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-//           TODO Не понимаю почему не принимает переменные которые подгружает Spring из property
-//            return DriverManager.getConnection(URL, userName,password);
-            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/first_db", "postgres", "postgres");
-
+            return DriverManager.getConnection(URL, userName, password);
         } catch (SQLException e) {
-            System.out.println("Error ///////////////////////////////////////////////////////");
             throw new RuntimeException(e);
         }
     }

@@ -19,8 +19,14 @@ public class Person {
     @Email(message = "Is not be e-Mail")
     private String email;
     
+    public Person(String name, String surname, int age, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+    }
     
-    public Person(int id, String name, int age, String surname, String email) {
+    public Person(int id, String name, String surname, int age, String email) {
         this.id = id;
         this.name = name;
         this.age = age;

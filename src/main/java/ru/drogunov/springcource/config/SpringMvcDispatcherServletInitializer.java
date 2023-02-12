@@ -1,7 +1,5 @@
 package ru.drogunov.springcource.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -19,7 +17,7 @@ public class SpringMvcDispatcherServletInitializer extends AbstractAnnotationCon
     
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{SpringWebMvcConfigurer.class};
+        return new Class[]{SpringConfigurer.class};
     }
     
     @Override

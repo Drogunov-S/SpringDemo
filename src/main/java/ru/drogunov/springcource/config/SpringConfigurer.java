@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -11,9 +13,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import javax.sql.DataSource;
 
 /**
  * Аналог applicationContextMVC.xml
@@ -22,17 +22,19 @@ import java.sql.SQLException;
 @EnableWebMvc
 @ComponentScan("ru.drogunov.springcource")
 @PropertySources({
-        @PropertySource("classpath:springWebMvcConfigurer.properties"),
+        @PropertySource("classpath:springConfigurer.properties"),
         @PropertySource("classpath:db.properties")
 })
-public class SpringWebMvcConfigurer implements WebMvcConfigurer {
+public class SpringConfigurer implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
-    @Value("${springWebMvcConfigurer.prefix}")
+    @Value("${springConfigurer.prefix}")
     private String prefix;
-    @Value("${springWebMvcConfigurer.suffix}")
+    @Value("${springConfigurer.suffix}")
     private String suffix;
-    @Value("${springWebMvcConfigurer.enableSpringELCompiler}")
+    @Value("${springConfigurer.enableSpringELCompiler}")
     private boolean enableSpringELCompiler;
+    @Value("${db.driverClassName}")
+    private String driverClassName;
     @Value("${db.URL}")
     private String URL;
     @Value("${db.userName}")
@@ -40,16 +42,9 @@ public class SpringWebMvcConfigurer implements WebMvcConfigurer {
     @Value("${db.password}")
     private String password;
     
-    static {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
     
     @Autowired
-    public SpringWebMvcConfigurer(ApplicationContext applicationContext) {
+    public SpringConfigurer(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
     
@@ -78,12 +73,18 @@ public class SpringWebMvcConfigurer implements WebMvcConfigurer {
     }
     
     @Bean
-    public Connection connection() {
-        try {
-            return DriverManager.getConnection(URL, userName, password);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(URL);
+        dataSource.setUsername(userName);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
+    
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
     }
     
 }

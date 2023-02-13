@@ -9,11 +9,13 @@ import ru.drogunov.springcource.model.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PersonDAO {
     private final JdbcTemplate jdbcTemplate;
     private final PersonMapper personMapper;
+    private final BeanPropertyRowMapper<Person> rowMapper = new BeanPropertyRowMapper<>(Person.class);
     
     @Autowired
     public PersonDAO(JdbcTemplate jdbcTemplate, PersonMapper personMapper) {
@@ -30,22 +32,41 @@ public class PersonDAO {
     /**
      * Пример с RowMapper от Spring
      */
-    public Person getById(int id) {
+    public Person show(int id) {
         String query = "SELECT * FROM person WHERE id=?";
-        return jdbcTemplate.query(query, new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
+        return jdbcTemplate.query(query, new Object[]{id}, rowMapper)
                 .stream()
                 .findAny()
                 .orElse(null);
     }
     
-    public void save(Person person) {
-        String query = "INSERT INTO person(name, surname, age, email) VALUES(?,?,?,?)";
-        jdbcTemplate.update(query, person.getName(), person.getSurname(), person.getAge(), person.getEmail());
+    public Optional<Person> show(String email) {
+        String query = "SELECT id, email FROM person WHERE email=?";
+        return jdbcTemplate.query(query, new Object[]{email}, rowMapper)
+                .stream()
+                .findAny();
+        
     }
     
+    public void save(Person person) {
+        String query = "INSERT INTO person(name, surname, age, email, address) VALUES(?,?,?,?,?)";
+        jdbcTemplate.update(query,
+                            person.getName(),
+                            person.getSurname(),
+                            person.getAge(),
+                            person.getEmail(),
+                            person.getAddress()
+    );}
+    
     public void update(int id, Person person) {
-        String query = "UPDATE person SET name=?, surname=?, age=?, email=? WHERE id=?";
-        jdbcTemplate.update(query, person.getName(), person.getSurname(), person.getAge(), person.getEmail(), id);
+        String query = "UPDATE person SET name=?, surname=?, age=?, email=?, address=? WHERE id=?";
+        jdbcTemplate.update(query,
+                            person.getName(),
+                            person.getSurname(),
+                            person.getAge(),
+                            person.getEmail(),
+                            person.getAddress(),
+                            id);
     }
     
     public void delete(int id) {

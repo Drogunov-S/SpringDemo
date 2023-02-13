@@ -1,5 +1,6 @@
 package ru.drogunov.springcource.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,17 +8,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.drogunov.springcource.dao.PersonDAO;
 import ru.drogunov.springcource.model.Person;
-
-import javax.validation.Valid;
+import ru.drogunov.springcource.util.validators.PersonValidator;
 
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
     private final PersonDAO personDAO;
+    private final PersonValidator personValidator;
     
     @Autowired
-    public PeopleController(PersonDAO personDAO) {
+    public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
         this.personDAO = personDAO;
+        this.personValidator = personValidator;
     }
     
     /**
@@ -34,7 +36,7 @@ public class PeopleController {
      */
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDAO.getById(id));
+        model.addAttribute("person", personDAO.show(id));
         return "people/show";
     }
     
@@ -46,8 +48,9 @@ public class PeopleController {
     }
     
     @PostMapping
-    public String create(@ModelAttribute("person") Person person,
+    public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) {
+        personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             return "people/new";
         }
@@ -58,7 +61,7 @@ public class PeopleController {
     @GetMapping("/{id}/edit")
     public String edit(Model model,
                        @PathVariable("id") int id) {
-        Person show = personDAO.getById(id);
+        Person show = personDAO.show(id);
         model.addAttribute("person", show);
         return "people/edit";
     }
@@ -67,6 +70,7 @@ public class PeopleController {
     public String update(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult,
                          @PathVariable("id") int id) {
+        personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             return "people/edit";
         }

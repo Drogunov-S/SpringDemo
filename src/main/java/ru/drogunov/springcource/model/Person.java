@@ -1,37 +1,48 @@
 package ru.drogunov.springcource.model;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class Person {
     private int id;
     @NotEmpty(message = "Name not by null")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String name;
-    
     @NotEmpty(message = "Name not by null")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String surname;
     @Min(value = 5, message = "Min age 5")
     private int age;
-    @Email(message = "Is not be e-Mail")
+    @Email
     private String email;
+    @Pattern(
+            regexp = "([A-Z]+|[А-Я]+)(\\w+|[а-я]+), ([A-Z]+|[А-Я]+)(\\w+|[а-я]+), \\d{6}, .+",
+            message = "Формат: \"Страна, Город, 123456, \""
+    )
+    private String address;
     
-    public Person(String name, String surname, int age, String email) {
+    public Person(String name, String surname, int age, String email, String address) {
         this.name = name;
         this.surname = surname;
         this.age = age;
         this.email = email;
+        this.address = address;
     }
     
-    public Person(int id, String name, String surname, int age, String email) {
+    public Person(int id, String name, String surname, int age, String email, String address) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.email = email;
         this.surname = surname;
+        this.address = address;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+    
+    public void setAddress(String address) {
+        this.address = address;
     }
     
     public int getAge() {
@@ -50,7 +61,8 @@ public class Person {
         this.email = email;
     }
     
-    public Person() {}
+    public Person() {
+    }
     
     public String getSurname() {
         return surname;

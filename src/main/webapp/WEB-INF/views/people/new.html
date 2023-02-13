@@ -31,6 +31,12 @@
   <hr>
   <span style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
   <hr>
+  <br>
+  <label for="address">Enter address: </label>
+  <input type="text" th:field="*{address}" id="address"/>
+  <hr>
+  <span style="color:red" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
+  <hr>
   <input type="submit" value="Create"/>
 </form>
 <hr>

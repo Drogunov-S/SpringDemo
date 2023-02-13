@@ -9,9 +9,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
 import javax.sql.DataSource;
 
@@ -27,6 +27,8 @@ import javax.sql.DataSource;
 })
 public class SpringConfigurer implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
+    @Value("${springConfigurer.characterEncoding}")
+    private String characterEncoding;
     @Value("${springConfigurer.prefix}")
     private String prefix;
     @Value("${springConfigurer.suffix}")
@@ -42,7 +44,6 @@ public class SpringConfigurer implements WebMvcConfigurer {
     @Value("${db.password}")
     private String password;
     
-    
     @Autowired
     public SpringConfigurer(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
@@ -54,6 +55,7 @@ public class SpringConfigurer implements WebMvcConfigurer {
         templateResolver.setApplicationContext(applicationContext);
         templateResolver.setPrefix(prefix);
         templateResolver.setSuffix(suffix);
+        templateResolver.setCharacterEncoding(characterEncoding);
         return templateResolver;
     }
     
@@ -68,6 +70,7 @@ public class SpringConfigurer implements WebMvcConfigurer {
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+        resolver.setCharacterEncoding(characterEncoding);
         resolver.setTemplateEngine(templateEngine());
         registry.viewResolver(resolver);
     }

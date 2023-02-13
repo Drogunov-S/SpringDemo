@@ -20,6 +20,7 @@ public class PersonMapper implements RowMapper<Person> {
         String surname = resultSet.getString("surname");
         int age = resultSet.getInt("age");
         String email = resultSet.getString("email");
-        return new Person(id, name, surname, age, email);
+        String address = resultSet.getString("address");
+        return new Person(id, name, surname, age, email, address);
     }
 }

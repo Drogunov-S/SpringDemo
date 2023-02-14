@@ -20,8 +20,9 @@
     <!--/*@thymesVar id="role" type="ru.drogunov.springcource.model.Role"*/-->
     <option th:each="role : ${T(ru.drogunov.springcource.model.Role).values()}" th:value="${role.name()}" th:text="${role}"></option>
   </select>
-
-  <input type="submit" value="Added">
+  <br>
+  <br>
+  <input type="submit" value="Добавить">
 </form>
 <nav>
   <br>

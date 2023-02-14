@@ -20,6 +20,8 @@
 <hr>
 <p th:text="${person.getAddress()}"></p>
 <hr>
+<p th:text="${person.getRole()}"></p>
+<hr>
 <br>
 <br>
 <hr>
@@ -35,8 +37,22 @@
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
   <input type="submit" value="Delete">
 </form>
-<!--Колхоз-->
-<!--<a th:href="@{/people/{id}(id=${person.getId()})}+${'/edit'}" th:object="${person}">Update person</a>-->
+
+<nav>
+  <br>
+  <a href="/">Home page</a>
+  <br>
+  <hr>
+  <a href="/people">Persons</a>
+  <br>
+  <hr>
+  <a href="/people/new">Create person</a>
+  <br>
+  <hr>
+  <a href="/admin">Added admin</a>
+  <hr>
+  <br>
+</nav>
 </body>
 </html>
 

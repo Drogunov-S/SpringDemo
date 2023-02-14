@@ -3,6 +3,7 @@ package ru.drogunov.springcource.dao.mappers;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.drogunov.springcource.model.Person;
+import ru.drogunov.springcource.model.Role;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,6 +22,7 @@ public class PersonMapper implements RowMapper<Person> {
         int age = resultSet.getInt("age");
         String email = resultSet.getString("email");
         String address = resultSet.getString("address");
-        return new Person(id, name, surname, age, email, address);
+        String role = resultSet.getString("role");
+        return new Person(id, name, surname, age, email, address, Role.valueOf(role));
     }
 }

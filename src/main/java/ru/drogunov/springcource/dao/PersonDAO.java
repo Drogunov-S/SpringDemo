@@ -51,27 +51,46 @@ public class PersonDAO {
     public void save(Person person) {
         String query = "INSERT INTO person(name, surname, age, email, address) VALUES(?,?,?,?,?)";
         jdbcTemplate.update(query,
-                            person.getName(),
-                            person.getSurname(),
-                            person.getAge(),
-                            person.getEmail(),
-                            person.getAddress()
-    );}
+                person.getName(),
+                person.getSurname(),
+                person.getAge(),
+                person.getEmail(),
+                person.getAddress()
+        );
+    }
     
     public void update(int id, Person person) {
         String query = "UPDATE person SET name=?, surname=?, age=?, email=?, address=? WHERE id=?";
         jdbcTemplate.update(query,
-                            person.getName(),
-                            person.getSurname(),
-                            person.getAge(),
-                            person.getEmail(),
-                            person.getAddress(),
-                            id);
+                person.getName(),
+                person.getSurname(),
+                person.getAge(),
+                person.getEmail(),
+                person.getAddress(),
+                id);
     }
     
     public void delete(int id) {
         String query = "DELETE FROM person WHERE id=?";
         jdbcTemplate.update(query, id);
+    }
+    
+    /*TODO
+     * 1) Для того чтобы работало Вариант 1 82, 83 строчки закомментировать.
+     * Вариант 2 не работает, но должен использоваться такой подход 86,87 раскомментировать
+     * 2) В БД это ENUM файл инициализации БД в ресурсах.
+     * 3) На странице http://localhost:8080/admin меняем роль Person
+     * Проблема; При текущем варианте Spring делает не правильный запрос, почему так получается
+     * не ясно.
+     * */
+    public void updateRole(Person person, String role) {
+        String query = "UPDATE person SET role= ? WHERE id= ?";
+        jdbcTemplate.update(query, role, person.getId());
+    
+    /*
+     String query = "UPDATE person SET role=\'"+role+"\' WHERE id=?";
+        jdbcTemplate.update(query, person.getId());
+    * */
     }
 }
 

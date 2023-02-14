@@ -14,11 +14,13 @@ public class Person {
     private int age;
     @Email
     private String email;
+    
     @Pattern(
             regexp = "([A-Z]+|[А-Я]+)(\\w+|[а-я]+), ([A-Z]+|[А-Я]+)(\\w+|[а-я]+), \\d{6}, .+",
             message = "Формат: \"Страна, Город, 123456, \""
     )
     private String address;
+    Role role;
     
     public Person(String name, String surname, int age, String email, String address) {
         this.name = name;
@@ -35,6 +37,28 @@ public class Person {
         this.email = email;
         this.surname = surname;
         this.address = address;
+    }
+    
+    public Person(int id, String name, String surname, int age, String email, String address, Role role) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+        this.address = address;
+        this.role = role;
+    }
+    
+    public String getFullname() {
+        return String.format("%s %s", name, surname);
+    }
+    
+    public Role getRole() {
+        return role;
+    }
+    
+    public void setRole(Role role) {
+        this.role = role;
     }
     
     public String getAddress() {

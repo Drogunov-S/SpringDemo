@@ -1,18 +1,19 @@
 package ru.drogunov.springcource.model;
 
-import jakarta.validation.constraints.Size;
-import org.springframework.format.annotation.DateTimeFormat;
+import jakarta.persistence.*;
 
 import java.time.Year;
 
+@Entity
+@Table(name = "book")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int person;
-    @Size(min = 3, max = 100)
     private String title;
-    @Size(min = 3, max = 100)
     private String author;
-    @DateTimeFormat(pattern = "YYYY")
+    @Column(name = "year", columnDefinition = "integer")
     private Year yearManufactured;
     
     public Book() {

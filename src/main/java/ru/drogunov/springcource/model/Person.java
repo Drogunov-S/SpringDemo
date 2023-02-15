@@ -1,58 +1,46 @@
 package ru.drogunov.springcource.model;
 
-import jakarta.validation.constraints.*;
+import jakarta.persistence.*;
 
-import java.util.List;
-
+@Entity
+@Table(name = "person")
 public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotEmpty(message = "Name not by null")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String name;
-    @NotEmpty(message = "Name not by null")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String surname;
-    @Min(value = 5, message = "Min age 5")
+    @Column(name = "year_birth")
     private int yearBrith;
-    @Email
     private String email;
-    
-    @Pattern(
-            regexp = "([A-Z]+|[А-Я]+)(\\w+|[а-я]+), ([A-Z]+|[А-Я]+)(\\w+|[а-я]+), \\d{6}, .+",
-            message = "Формат: \"Страна, Город, 123456, \""
-    )
     private String address;
-    Role role;
-    
-    private List<Book> books;
+//    @Enumerated(EnumType.STRING)
     
     public Person() {
     }
     
-    public Person(int id, String name, String surname, int yearBrith, String email, String address, Role role, List<Book> books) {
+    public Person(String name, String surname, int yearBrith, String email, String address) {
+        this.name = name;
+        this.surname = surname;
+        this.yearBrith = yearBrith;
+        this.email = email;
+        this.address = address;
+    }
+    
+    public Person(int id, String name, String surname, int yearBrith, String email, String address, Role role) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.yearBrith = yearBrith;
         this.email = email;
         this.address = address;
-        this.role = role;
-        this.books = books;
     }
-    
-    
     
     public String getFullname() {
         return String.format("%s %s", name, surname);
     }
     
-    public Role getRole() {
-        return role;
-    }
     
-    public void setRole(Role role) {
-        this.role = role;
-    }
     
     public String getAddress() {
         return address;
@@ -102,11 +90,4 @@ public class Person {
         this.name = name;
     }
     
-    public List<Book> getBooks() {
-        return books;
-    }
-    
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
 }

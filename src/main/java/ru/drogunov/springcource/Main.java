@@ -1,15 +1,34 @@
 package ru.drogunov.springcource;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import ru.drogunov.springcource.model.Book;
+import ru.drogunov.springcource.model.Person;
 
 public class Main {
     public static void main(String[] args) {
-//        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
-//                AppConfig.class
-//        );
-//        startOut();
-//        System.out.println("//".repeat(15));
-//        endOut(context);
+        SessionFactory sessionFactory = new Configuration()
+                .addAnnotatedClass(Person.class)
+                .addAnnotatedClass(Book.class)
+                .buildSessionFactory();
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.beginTransaction();
+            session.persist(getPerson());
+            session.getTransaction().commit();
+        } finally {
+            sessionFactory.close();
+        }
+    }
+    
+    private static Person getPerson() {
+        return new Person("Петров Петр Петрович",
+                            "Aisbern",
+                            1960,
+                            "bestboy@i.ru",
+                            "Россия, Москва, 125476, ул. Видова дом 2"
+        );
     }
     
     private static void startOut() {
@@ -18,10 +37,9 @@ public class Main {
         System.out.println("//".repeat(18) + "\n");
     }
     
-    private static void endOut(AnnotationConfigApplicationContext context) {
+    private static void endOut() {
         System.out.println("\n" + "//".repeat(18));
         System.out.println("//".repeat(5) + " @ End output " + "//".repeat(6));
         System.out.println("//".repeat(18) + "\n");
-        context.close();
     }
 }

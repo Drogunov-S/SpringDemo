@@ -5,17 +5,17 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>All people</title>
+  <title>All books</title>
 </head>
 <body>
 
 <div>
   <ul>
-    <li th:each="person : ${people}">
-      <!--/*@thymesVar id="person" type="ru.drogunov.springcource.model.Person"*/-->
-      <a th:href="@{/people/{id}(id=${person.getId()})}"
-         th:object="${person}"
-         th:text="*{name} + ',         ' + *{surname} + ',         ' + *{yearBrith} + ',         ' + *{email} + ',         ' + *{address}">
+    <li th:each="book : ${books}">
+      <!--/*@thymesVar id="book" type="ru.drogunov.springcource.model.Book"*/-->
+      <a th:href="@{/books/{id}(id=${book.getId()})}"
+         th:object="${book}"
+         th:text="*{title} + ',         ' + *{author} + ',         ' + *{yearManufactured}">
     </li>
   </ul>
   <br>

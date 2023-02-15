@@ -3,7 +3,7 @@ package ru.drogunov.springcource.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.drogunov.springcource.dao.mappers.PersonMapper;
 import ru.drogunov.springcource.model.Person;
 
@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 public class PersonDAO {
+    
     private final JdbcTemplate jdbcTemplate;
     private final PersonMapper personMapper;
     private final BeanPropertyRowMapper<Person> rowMapper = new BeanPropertyRowMapper<>(Person.class);
@@ -34,7 +35,7 @@ public class PersonDAO {
      */
     public Person show(int id) {
         String query = "SELECT * FROM person WHERE id=?";
-        return jdbcTemplate.query(query, new Object[]{id}, rowMapper)
+        return jdbcTemplate.query(query, new Object[]{id}, personMapper)
                 .stream()
                 .findAny()
                 .orElse(null);
@@ -49,22 +50,22 @@ public class PersonDAO {
     }
     
     public void save(Person person) {
-        String query = "INSERT INTO person(name, surname, age, email, address) VALUES(?,?,?,?,?)";
+        String query = "INSERT INTO person(name, surname, year_birth, email, address) VALUES(?,?,?,?,?)";
         jdbcTemplate.update(query,
                 person.getName(),
                 person.getSurname(),
-                person.getAge(),
+                person.getYearBrith(),
                 person.getEmail(),
                 person.getAddress()
         );
     }
     
     public void update(int id, Person person) {
-        String query = "UPDATE person SET name=?, surname=?, age=?, email=?, address=? WHERE id=?";
+        String query = "UPDATE person SET name=?, surname=?, year_birth=?, email=?, address=? WHERE id=?";
         jdbcTemplate.update(query,
                 person.getName(),
                 person.getSurname(),
-                person.getAge(),
+                person.getYearBrith(),
                 person.getEmail(),
                 person.getAddress(),
                 id);
@@ -84,13 +85,11 @@ public class PersonDAO {
      * не ясно.
      * */
     public void updateRole(Person person, String role) {
-        String query = "UPDATE person SET role= ? WHERE id= ?";
-        jdbcTemplate.update(query, role, person.getId());
+//        String query = "UPDATE person SET role= ? WHERE id= ?";
+//        jdbcTemplate.update(query, role, person.getId());
     
-    /*
      String query = "UPDATE person SET role=\'"+role+"\' WHERE id=?";
         jdbcTemplate.update(query, person.getId());
-    * */
     }
 }
 

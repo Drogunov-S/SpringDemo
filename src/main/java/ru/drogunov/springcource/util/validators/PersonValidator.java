@@ -12,7 +12,6 @@ import java.util.Optional;
 @Component
 public class PersonValidator implements Validator {
     private final PersonDAO personDAO;
-    private Optional<Person> personFromDb;
     
     @Autowired
     public PersonValidator(PersonDAO personDAO) {
@@ -27,7 +26,7 @@ public class PersonValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
-        personFromDb = personDAO.show(person.getEmail());
+        Optional<Person> personFromDb = personDAO.show(person.getEmail());
         if (personFromDb.isPresent()
                 && person.getId() != personFromDb.get().getId()
         ) {

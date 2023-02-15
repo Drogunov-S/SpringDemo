@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Create person</title>
+  <title>Edit person</title>
 </head>
 <body>
 <h1>Edit person</h1>
@@ -21,9 +21,9 @@
   <hr>
   <br>
   <label for="age">Enter age: </label>
-  <input type="text" th:field="*{age}" id="age"/>
+  <input type="text" th:field="*{yearBrith}" id="age"/>
   <hr>
-  <span style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
+  <span style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{yearBrith}"></span>
   <hr>
   <br>
   <label for="email">Enter email: </label>
@@ -39,12 +39,27 @@
   <hr>
   <input type="submit" value="Update"/>
 </form>
-<hr>
-<a href="/">Home page</a>
-<br>
-<hr>
-<a href="/people/new">Create person</a>
-<br>
+<nav>
+  <br>
+  <a href="/">Home page</a>
+  <br>
+  <hr>
+  <a href="/people">Persons</a>
+  <br>
+  <hr>
+  <a href="/people/new">Create person</a>
+  <br>
+  <hr>
+  <a href="/books">Books</a>
+  <br>
+  <hr>
+  <a href="/books/new">Create books</a>
+  <br>
+  <hr>
+  <a href="/admin">Added admin</a>
+  <hr>
+  <br>
+</nav>
 
 
 </body>

@@ -20,10 +20,10 @@
   <span style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
   <hr>
   <br>
-  <label for="age">Enter age: </label>
-  <input type="text" th:field="*{age}" id="age"/>
+  <label for="yearBrith">Enter year: </label>
+  <input type="text" th:field="*{yearBrith}" id="yearBrith"/>
   <hr>
-  <span style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
+  <span style="color:red" th:if="${#fields.hasErrors('yearBrith')}" th:errors="*{yearBrith}"></span>
   <hr>
   <br>
   <label for="email">Enter email: </label>
@@ -39,9 +39,26 @@
   <hr>
   <input type="submit" value="Create"/>
 </form>
-<hr>
-<br>
-<a href="/">Home page</a>
-
+<nav>
+  <br>
+  <a href="/">Home page</a>
+  <br>
+  <hr>
+  <a href="/people">Persons</a>
+  <br>
+  <hr>
+  <a href="/people/new">Create person</a>
+  <br>
+  <hr>
+  <a href="/books">Books</a>
+  <br>
+  <hr>
+  <a href="/books/new">Create books</a>
+  <br>
+  <hr>
+  <a href="/admin">Added admin</a>
+  <hr>
+  <br>
+</nav>
 </body>
 </html>

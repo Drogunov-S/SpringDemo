@@ -17,7 +17,14 @@
 <p th:text="'Year manufactured '+${book.getYearManufactured()}"></p>
 <hr>
 <!--/*@thymesVar id="person" type="ru.drogunov.springcource.model.Person"*/-->
-<p th:text="${!book.isFree()} ? 'Person: '+${person.getName()} : 'Книга свободна'"></p>
+<!--<p th:text="${!book.isFree()} ? 'Person: '+${person.getName()} : 'Книга свободна'"></p>-->
+<div th:switch="${!book.isFree()}">
+  <p th:case="true"> Person:
+    <a th:href="@{/people/{id}(id=${person.id})}" th:text="${person.getName()}"></a>
+  </p>
+  <p th:case="false">Книга свободна</p>
+</div>
+
 <hr>
 <br>
 <form th:if="${!book.isFree()}" th:method="PATCH" th:action="@{/books/{id}/free(id=${book.getId()})}" th:field="book">

@@ -11,6 +11,8 @@ import ru.drogunov.springcource.dao.PersonDAO;
 import ru.drogunov.springcource.model.Book;
 import ru.drogunov.springcource.model.Person;
 
+import static java.util.Objects.isNull;
+
 @Controller
 @RequestMapping("/books")
 public class BooksController {
@@ -30,10 +32,10 @@ public class BooksController {
     }
     
     @GetMapping("{id}")
-    public String show(@PathVariable("id") int id,
+    public String show(@PathVariable("id") Integer id,
                        Model model) {
         Book show = bookDAO.show(id);
-        if (show.getPersonId() == 0) {
+        if (isNull(show.getPersonId())) {
             model.addAttribute("people", personDAO.index());
             model.addAttribute("person", new Person());
         } else {
@@ -62,7 +64,7 @@ public class BooksController {
     
     @GetMapping("/{id}/edit")
     public String edit(Model model,
-                       @PathVariable int id) {
+                       @PathVariable Integer id) {
         Book show = bookDAO.show(id);
         model.addAttribute("book", show);
         return "book/edit";
@@ -81,7 +83,7 @@ public class BooksController {
     }
     
     @PostMapping("{id}/free")
-    public String reserved(@PathVariable int id,
+    public String reserved(@PathVariable Integer id,
                            @ModelAttribute("person") Person person) {
         bookDAO.reserved(id, person);
         return String.format("redirect: /books/%d", id);
@@ -89,13 +91,13 @@ public class BooksController {
     
     @PatchMapping("{id}/free")
     public String freedomBook(@ModelAttribute("book") Book book,
-                              @PathVariable("id") int id) {
+                              @PathVariable("id") Integer id) {
         bookDAO.freedom(id);
         return String.format("redirect: /books/%d", book.getId());
     }
     
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) {
+    public String delete(@PathVariable Integer id) {
         bookDAO.delete(id);
         return "redirect: book/books";
     }

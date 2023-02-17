@@ -1,24 +1,33 @@
 package ru.drogunov.springcource.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Year;
 
+import static java.util.Objects.isNull;
+
+@Entity
+@Table(name = "book")
 public class Book {
-    private int id;
-    private int person;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(name = "person_id")
+    private Integer person;
     @Size(min = 3, max = 100)
     private String title;
     @Size(min = 3, max = 100)
     private String author;
+    @Column(name = "year", columnDefinition = "integer")
     @DateTimeFormat(pattern = "YYYY")
     private Year yearManufactured;
     
     public Book() {
     }
     
-    public Book(int id, int person, String title, String author, Year yearManufactured) {
+    public Book(Integer id, Integer person, String title, String author, Year yearManufactured) {
         this.id = id;
         this.person = person;
         this.title = title;
@@ -27,22 +36,22 @@ public class Book {
     }
     
     public boolean isFree() {
-        return person == 0;
+        return isNull(person);
     }
     
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     
-    public int getPersonId() {
+    public Integer getPersonId() {
         return person;
     }
     
-    public void setPerson(int person) {
+    public void setPerson(Integer person) {
         this.person = person;
     }
     

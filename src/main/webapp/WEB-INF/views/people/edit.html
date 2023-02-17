@@ -23,7 +23,7 @@
   <label for="age">Enter age: </label>
   <input type="text" th:field="*{yearBrith}" id="age"/>
   <hr>
-  <span style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{yearBrith}"></span>
+  <span style="color:red" th:if="${#fields.hasErrors('yearBrith')}" th:errors="*{yearBrith}"></span>
   <hr>
   <br>
   <label for="email">Enter email: </label>

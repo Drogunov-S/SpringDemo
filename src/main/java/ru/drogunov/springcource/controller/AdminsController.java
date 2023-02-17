@@ -10,6 +10,7 @@ import ru.drogunov.springcource.model.Person;
 @Controller
 @RequestMapping("/admin")
 public class AdminsController {
+    
     private final PersonDAO personDAO;
     
     @Autowired

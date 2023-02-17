@@ -1,81 +1,34 @@
 package ru.drogunov.springcource.dao;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ru.drogunov.springcource.dao.mappers.PersonMapper;
+import org.springframework.transaction.annotation.Transactional;
 import ru.drogunov.springcource.model.Person;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class PersonDAO {
-    
-    private final JdbcTemplate jdbcTemplate;
-    private final PersonMapper personMapper;
-    private final BeanPropertyRowMapper<Person> rowMapper = new BeanPropertyRowMapper<>(Person.class);
+public class PersonDAO extends BaseDAO<Person>{
     
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate, PersonMapper personMapper) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.personMapper = personMapper;
+    public PersonDAO(SessionFactory sessionFactory) {
+        super(Person.class, sessionFactory);
     }
     
-    public List<Person> index() {
-        List<Person> people = new ArrayList<>();
-        String query = "SELECT * FROM person;";
-        return jdbcTemplate.query(query, personMapper);
+    public PersonDAO() {
+        super();
     }
     
-    /**
-     * Пример с RowMapper от Spring
-     */
-    public Person show(int id) {
-        String query = "SELECT * FROM person WHERE id=?";
-        return jdbcTemplate.query(query, new Object[]{id}, personMapper)
-                .stream()
-                .findAny()
-                .orElse(null);
-    }
-    
+    @Transactional
     public Optional<Person> show(String email) {
-        String query = "SELECT id, email FROM person WHERE email=?";
-        return jdbcTemplate.query(query, new Object[]{email}, rowMapper)
-                .stream()
-                .findAny();
+        String query = "FROM Person p WHERE p.email=:EMAIL";
+        return getCurrentSession()
+                .createQuery(query, Person.class)
+                .setParameter("EMAIL", email)
+                .uniqueResultOptional();
         
     }
-    
-    public void save(Person person) {
-        String query = "INSERT INTO person(name, surname, year_birth, email, address) VALUES(?,?,?,?,?)";
-        jdbcTemplate.update(query,
-                person.getName(),
-                person.getSurname(),
-                person.getYearBrith(),
-                person.getEmail(),
-                person.getAddress()
-        );
-    }
-    
-    public void update(int id, Person person) {
-        String query = "UPDATE person SET name=?, surname=?, year_birth=?, email=?, address=? WHERE id=?";
-        jdbcTemplate.update(query,
-                person.getName(),
-                person.getSurname(),
-                person.getYearBrith(),
-                person.getEmail(),
-                person.getAddress(),
-                id);
-    }
-    
-    public void delete(int id) {
-        String query = "DELETE FROM person WHERE id=?";
-        jdbcTemplate.update(query, id);
-    }
-    
     /*TODO
      * 1) Для того чтобы работало Вариант 1 82, 83 строчки закомментировать.
      * Вариант 2 не работает, но должен использоваться такой подход 86,87 раскомментировать
@@ -84,12 +37,9 @@ public class PersonDAO {
      * Проблема; При текущем варианте Spring делает не правильный запрос, почему так получается
      * не ясно.
      * */
+    @Transactional
     public void updateRole(Person person, String role) {
-//        String query = "UPDATE person SET role= ? WHERE id= ?";
-//        jdbcTemplate.update(query, role, person.getId());
-    
-     String query = "UPDATE person SET role=\'"+role+"\' WHERE id=?";
-        jdbcTemplate.update(query, person.getId());
+        getCurrentSession().update(person);
     }
 }
 

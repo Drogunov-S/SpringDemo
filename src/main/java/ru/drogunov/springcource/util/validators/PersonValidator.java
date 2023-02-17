@@ -4,18 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ru.drogunov.springcource.dao.PersonDAO;
 import ru.drogunov.springcource.model.Person;
+import ru.drogunov.springcource.services.PeopleService;
 
 import java.util.Optional;
 
 @Component
 public class PersonValidator implements Validator {
-    private final PersonDAO personDAO;
+    private final PeopleService peopleService;
     
     @Autowired
-    public PersonValidator(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonValidator(PeopleService peopleService) {
+        this.peopleService = peopleService;
     }
     
     @Override
@@ -26,7 +26,7 @@ public class PersonValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
-        Optional<Person> personFromDb = personDAO.show(person.getEmail());
+        Optional<Person> personFromDb = peopleService.findByEmail(person.getEmail());
         if (personFromDb.isPresent()
                 && person.getId() != personFromDb.get().getId()
         ) {

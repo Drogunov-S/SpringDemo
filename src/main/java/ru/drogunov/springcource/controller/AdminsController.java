@@ -4,31 +4,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.drogunov.springcource.dao.PersonDAO;
 import ru.drogunov.springcource.model.Person;
+import ru.drogunov.springcource.services.PeopleService;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminsController {
     
-    private final PersonDAO personDAO;
+    private final PeopleService peopleService;
     
     @Autowired
-    public AdminsController(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public AdminsController(PeopleService peopleService) {
+        this.peopleService = peopleService;
     }
     
     @GetMapping
     public String index(Model model,
                         @ModelAttribute("person") Person person) {
-        model.addAttribute("people", personDAO.index());
+        model.addAttribute("people", peopleService.findAll());
         return "admin/admin";
     }
     
     @PatchMapping("/add")
     public String add(@ModelAttribute("person") Person person,
                       @RequestParam("role") String role) {
-        personDAO.updateRole(person, role);
+        peopleService.save(person, role);
         return "redirect: /admin";
     }
 }

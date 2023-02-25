@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Year;
+import java.util.Date;
 
 import static java.util.Objects.isNull;
 
@@ -14,8 +15,10 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "person_id")
-    private Integer person;
+    
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person person;
     @Size(min = 3, max = 100)
     private String title;
     @Size(min = 3, max = 100)
@@ -24,19 +27,20 @@ public class Book {
     @DateTimeFormat(pattern = "YYYY")
     private Year yearManufactured;
     
+    @Column(name = "taken_at")
+    private Date takenAt;
+    
+    @Transient
+    private Boolean expired;
     public Book() {
     }
     
-    public Book(Integer id, Integer person, String title, String author, Year yearManufactured) {
+    public Book(Integer id, Person person, String title, String author, Year yearManufactured) {
         this.id = id;
         this.person = person;
         this.title = title;
         this.author = author;
         this.yearManufactured = yearManufactured;
-    }
-    
-    public boolean isFree() {
-        return isNull(person);
     }
     
     public Integer getId() {
@@ -47,11 +51,7 @@ public class Book {
         this.id = id;
     }
     
-    public Integer getPersonId() {
-        return person;
-    }
-    
-    public void setPerson(Integer person) {
+    public void setPerson(Person person) {
         this.person = person;
     }
     
@@ -78,4 +78,29 @@ public class Book {
     public void setYearManufactured(Year yearManufactured) {
         this.yearManufactured = yearManufactured;
     }
+    
+    public Person getPerson() {
+        return person;
+    }
+    
+    public Date getTakenAt() {
+        return takenAt;
+    }
+    
+    public void setTakenAt(Date takenAt) {
+        this.takenAt = takenAt;
+    }
+    
+    public Boolean getExpired() {
+        return expired;
+    }
+    
+    public void setExpired(Boolean expired) {
+        this.expired = expired;
+    }
+    
+    public boolean isFree() {
+        return isNull(person);
+    }
+    
 }

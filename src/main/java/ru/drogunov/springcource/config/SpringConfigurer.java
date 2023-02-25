@@ -97,14 +97,6 @@ public class SpringConfigurer implements WebMvcConfigurer {
         return dataSource;
     }
     
-/*    @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("ru.drogunov.springcource.model");
-        sessionFactory.setHibernateProperties(hibernateProperties());
-        return sessionFactory;
-    }*/
     
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -119,8 +111,6 @@ public class SpringConfigurer implements WebMvcConfigurer {
     
     @Bean
     public PlatformTransactionManager transactionManager() {
-//        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-//        transactionManager.setSessionFactory(sessionFactory().getObject());
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
@@ -131,7 +121,6 @@ public class SpringConfigurer implements WebMvcConfigurer {
         properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         properties.put("hibernate.hbm2ddl", env.getProperty("hibernate.hbm2ddl"));
-//        properties.put("hibernate.current_session_context_class", env.getProperty("hibernate.current_session_context_class"));
         return properties;
     }
 }

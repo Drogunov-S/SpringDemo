@@ -7,6 +7,7 @@ import org.springframework.validation.Validator;
 import ru.drogunov.springcource.model.Person;
 import ru.drogunov.springcource.services.PeopleService;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -28,7 +29,7 @@ public class PersonValidator implements Validator {
         Person person = (Person) target;
         Optional<Person> personFromDb = peopleService.findByEmail(person.getEmail());
         if (personFromDb.isPresent()
-                && person.getId() != personFromDb.get().getId()
+                && !Objects.equals(person.getId(), personFromDb.get().getId())
         ) {
             errors.rejectValue("email", "", "This email is already taken");
         }

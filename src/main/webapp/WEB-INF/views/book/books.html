@@ -9,15 +9,31 @@
 </head>
 <body>
 
+<select th:object="${Integer}" id="pageSize" name="pageSize">
+  <option value="3">3</option>
+  <option value="5">5</option>
+  <option value="10">10</option>
+  <option value="50">50</option>
+</select>
+
 <div>
   <ul>
-    <li th:each="book : ${books}">
+    <!--/*@thymesVar id="page" type="org.springframework.data.domain.Page"*/-->
+    <li th:each="book : ${page.content}" th:object="${book}">
       <!--/*@thymesVar id="book" type="ru.drogunov.springcource.model.Book"*/-->
       <a th:href="@{/books/{id}(id=${book.getId()})}"
          th:object="${book}"
-         th:text="*{title} + ',         ' + *{author} + ',         ' + *{yearManufactured}">
+         th:text="*{title} + ',         ' + *{author} + ',         ' + *{yearManufactured}"/>
     </li>
   </ul>
+  <br>
+  <br>
+  <!--/*@thymesVar id="page" type="org.springframework.data.domain.Page"*/-->
+  <div>
+    <a th:each="pageNumber : ${#numbers.sequence(0, page.getTotalPages())}"
+       th:href="@{/books?page={pageNumber}&pageSize={pageSizing}(pageNumber=${pageNumber}, pageSizing=${10})}"
+       th:text="${pageNumber}"></a>
+  </div>
   <br>
 </div>
 

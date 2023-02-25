@@ -35,20 +35,23 @@ public class PeopleService {
     }
     
     @Transactional
-    public void save(Person person, String role) {
-        person.setRole(Role.valueOf(role));
-        peopleRepository.save(person);
+    public void update(Person updatedPerson) {
+        peopleRepository.save(updatedPerson);
     }
     
     @Transactional
-    public void update(Person updatedPerson) {
-//        updatedPerson.setId(id);
-        peopleRepository.save(updatedPerson);
+    public void update(Person person, String role) {
+        peopleRepository.updateRoleById(Role.valueOf(role), person.getId());
     }
     
     @Transactional
     public void delete(Integer id) {
         peopleRepository.deleteById(id);
+    }
+    
+    
+    public Optional<Person> findByName(String name) {
+        return peopleRepository.findByName(name);
     }
     
     public Optional<Person> findByEmail(String email) {

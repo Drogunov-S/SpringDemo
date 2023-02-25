@@ -27,7 +27,7 @@ public class Person {
             message = "Формат: \"Страна, Город, 123456, \""
     )
     private String address;
-    @Transient
+    @Enumerated(EnumType.STRING)
     Role role;
 
     @OneToMany(fetch = FetchType.EAGER)

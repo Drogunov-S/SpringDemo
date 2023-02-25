@@ -4,12 +4,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class Main {
     public static void main(String[] args) {
-//        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
-//                AppConfig.class
-//        );
-//        startOut();
-//        System.out.println("//".repeat(15));
-//        endOut(context);
+String a = "aaaaaaaa";
+
+    
     }
     
     private static void startOut() {

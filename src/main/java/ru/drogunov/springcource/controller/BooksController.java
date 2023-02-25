@@ -2,6 +2,7 @@ package ru.drogunov.springcource.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,7 +12,7 @@ import ru.drogunov.springcource.model.Person;
 import ru.drogunov.springcource.services.BookService;
 import ru.drogunov.springcource.services.PeopleService;
 
-import static java.util.Objects.isNull;
+import java.util.List;
 
 @Controller
 @RequestMapping("/books")
@@ -26,22 +27,24 @@ public class BooksController {
     }
     
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("books", bookService.findAll());
+    public String index(
+            @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "false") Boolean sortByYear,
+            Model model) {
+
+        
+        model.addAttribute("page", bookService.findAll(PageRequest.of(page, pageSize), sortByYear));
         return "book/books";
     }
     
     @GetMapping("{id}")
     public String show(@PathVariable("id") Integer id,
                        Model model) {
-        Book show = bookService.findOne(id);
-        if (isNull(show.getPersonId())) {
+        Book book = bookService.findOne(id);
             model.addAttribute("people", peopleService.findAll());
             model.addAttribute("person", new Person());
-        } else {
-            model.addAttribute("person", peopleService.findOne(show.getPersonId()));
-        }
-        model.addAttribute("book", show);
+        model.addAttribute("book", book);
         return "book/show";
     }
     
@@ -101,6 +104,18 @@ public class BooksController {
     public String delete(@PathVariable Integer id) {
         bookService.delete(id);
         return "redirect: book/books";
+    }
+    
+    @GetMapping("/search")
+    public String searchPage() {
+        return "book/search";
+    }
+    
+    @PostMapping("/search")
+    public String makeSearch(Model model, @RequestParam("query") String query) {
+        List<Book> attributeValue = bookService.searchByTitle(query);
+        model.addAttribute("books", attributeValue);
+        return "book/search";
     }
 }
 

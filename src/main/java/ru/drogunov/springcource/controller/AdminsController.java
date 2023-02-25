@@ -28,7 +28,7 @@ public class AdminsController {
     @PatchMapping("/add")
     public String add(@ModelAttribute("person") Person person,
                       @RequestParam("role") String role) {
-        peopleService.save(person, role);
+        peopleService.update(person, role);
         return "redirect: /admin";
     }
 }
